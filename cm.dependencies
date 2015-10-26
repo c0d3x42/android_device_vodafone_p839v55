@@ -1,10 +1,5 @@
 [
   {
-    "remote":      "github",
-    "repository":  "c0d3x42/android_kernel_vodafone_p839v55",
-    "target_path": "kernel/vodafone/p839v55"
-  },
-  {
     "repository": "android_external_mm-dash",
     "target_path": "external/mm-dash"
   },
