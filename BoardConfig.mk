@@ -151,13 +151,7 @@ BOARD_SEPOLICY_DIRS += \
     device/vodafone/p839v55/sepolicy
 
 BOARD_SEPOLICY_UNION += \
-    init.te \
-    surfaceflinger.te \
-    system_server.te \
-    tee.te \
-    ueventd.te \
-    vold.te \
-    wcnss_service.te
+    vold.te
 
 # Vold
 TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/msm_hsusb/gadget/lun%d/file
