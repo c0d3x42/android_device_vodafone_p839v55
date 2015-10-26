@@ -44,7 +44,8 @@ TARGET_CPU_CORTEX_A53 := true
 
 # Kernel
 BOARD_CUSTOM_BOOTIMG_MK := device/vodafone/p839v55/mkbootimg.mk
-BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom msm_rtb.filter=0x3F ehci-hcd.park=3 vmalloc=400M androidboot.bootdevice=soc.0 utags.blkdev=/dev/block/platform/soc.0/by-name/utags utags.backup=/dev/block/platform/soc.0/by-name/utagsBackup movablecore=160M
+BOARD_KERNEL_CMDLINE := boot_cpus=0 androidboot.earlyboot_cpus=2,4,6 sched_enable_hmp=1 console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.selinux=permissive androidboot.hardware=qcom user_debug=30 msm_rtb.filter=0x3F ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1 androidboot.emmc=true androidboot.serialno=21a1b04f androidboot.baseband=msm mdss_mdp.panel=1:dsi:0:qcom,mdss_dsi_nt35596_lead_otp_1080p_video:1:none androidboot.mode=normal loglevel=4 serial_status=0
+
 BOARD_KERNEL_BASE := 0x80000000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_SEPARATED_DT := true
@@ -59,7 +60,7 @@ BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01000000 --tags_offset 0x00000100
 BOARD_ANT_WIRELESS_DEVICE := "vfs-prerelease"
 
 # Asserts
-TARGET_OTA_ASSERT_DEVICE := p839v55,xt1563,xt1562
+TARGET_OTA_ASSERT_DEVICE := p839v55
 
 # Audio
 AUDIO_FEATURE_ENABLED_NEW_SAMPLE_RATE := true
@@ -68,12 +69,6 @@ AUDIO_FEATURE_LOW_LATENCY_PRIMARY := true
 BOARD_USES_ALSA_AUDIO := true
 AUDIO_FEATURE_ENABLED_MULTI_VOICE_SESSIONS := true
 TARGET_USES_QCOM_MM_AUDIO := true
-
-# Bluetooth
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/vodafone/p839v55/bluetooth
-BOARD_HAVE_BLUETOOTH := true
-BOARD_HAVE_BLUETOOTH_QCOM := true
-BLUETOOTH_HCI_USE_MCT := true
 
 # Camera
 USE_DEVICE_SPECIFIC_CAMERA := true
@@ -125,11 +120,11 @@ BOARD_NFC_HAL_SUFFIX := 8916
 
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 131072
-BOARD_BOOTIMAGE_PARTITION_SIZE := 33554432	# 32768 * 1024 mmcblk0p31
-BOARD_RECOVERYIMAGE_PARTITION_SIZE := 33554432	# 32768 * 1024 mmcblk0p32
-BOARD_SYSTEMIMAGE_PARTITION_SIZE := 2852126720	# 2785280 * 1024 mmcblk0p41
-BOARD_PERSISTIMAGE_PARTITION_SIZE := 8388608 	# 8192 * 1024 mmcblk0p29
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 11815223296 # 11538304 * 1024 mmcblk0p42
+BOARD_BOOTIMAGE_PARTITION_SIZE := 33554432	# 32768 * 1024 mmcblk0p17
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 33554432	# 32768 * 1024 mmcblk0p23
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 2684354560	# 2621440 * 1024 mmcblk0p31
+BOARD_PERSISTIMAGE_PARTITION_SIZE := 33554432 	# 32768 * 1024 mmcblk0p11
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 12306070528 # 12017647 * 1024 mmcblk0p32
 
 # Power
 TARGET_POWERHAL_VARIANT := qcom
