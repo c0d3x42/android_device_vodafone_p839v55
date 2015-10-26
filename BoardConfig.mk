@@ -151,24 +151,7 @@ BOARD_SEPOLICY_DIRS += \
     device/vodafone/p839v55/sepolicy
 
 BOARD_SEPOLICY_UNION += \
-    akmd09912.te \
-    atfwd.te \
-    atvc.te \
-    batt_health.te \
-    bluetooth_loader.te \
-    device.te \
-    file.te \
-    file_contexts \
-    healthd.te \
     init.te \
-    init_shell.te \
-    mm-qcamerad.te \
-    property.te \
-    property_contexts \
-    qseecomd.te \
-    rild.te \
-    rmt_storage.te \
-    stml0xx.te \
     surfaceflinger.te \
     system_server.te \
     tee.te \
