@@ -2,8 +2,6 @@ vendor/app/DsNoWidget
 vendor/app/DsNoWidget/DsNoWidget.apk
 vendor/app/ims/arm/ims.odex
 vendor/app/ims/ims.apk
-vendor/app/ims/lib/arm/libimsmedia_jni.so
-vendor/app/ims/lib/arm/libimscamera_jni.so
 vendor/bin/audioflacapp
 vendor/bin/slim_ap_daemon
 vendor/bin/sound_trigger_test
