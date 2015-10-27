@@ -11,8 +11,6 @@ LOCAL_SRC_FILES    := $(LOCAL_MODULE)
 LOCAL_MODULE_PATH  := $(TARGET_ROOT_OUT)
 include $(BUILD_PREBUILT)
 
-init.btprop.sh
-init.crda.sh
 include $(CLEAR_VARS)
 LOCAL_MODULE       := init.ath3k.bt.sh
 LOCAL_MODULE_TAGS  := optional eng
