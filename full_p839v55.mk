@@ -24,6 +24,7 @@ $(call inherit-product, device/vodafone/p839v55/device.mk)
 PRODUCT_DEVICE := p839v55
 PRODUCT_NAME := full_p839v55
 PRODUCT_BRAND := vodafone
+PRODUCT_MODEL := vodafone smart ultra 6
 PRODUCT_MANUFACTURER := vodafone
 
-$(call inherit-product-if-exists, vendor/motorola/lux/lux-vendor.mk)
+$(call inherit-product-if-exists, vendor/vodafone/p839v55/p839v55-vendor.mk)
