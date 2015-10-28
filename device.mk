@@ -158,7 +158,7 @@ PRODUCT_PACKAGES += \
     libloc_adapter \
     libgps.utils \
     libloc_eng \
-    libloc_api_v02     
+    libloc_api_v02
 
 # Lights             
 PRODUCT_PACKAGES += \
