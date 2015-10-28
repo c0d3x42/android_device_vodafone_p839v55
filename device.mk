@@ -84,3 +84,12 @@ PRODUCT_COPY_FILES += \
 		$(LOCAL_PATH)/audio/mixer_paths_wcd9306.xml:system/etc/mixer_paths_wcd9306.xml \
 		$(LOCAL_PATH)/audio/mixer_paths_wcd9330.xml:system/etc/mixer_paths_wcd9330.xml \
 		$(LOCAL_PATH)/audio/mixer_paths.xml:system/etc/mixer_paths.xml
+
+# Thermal
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/thermal-engine.conf:system/etc/thermal-engine.conf
+
+# Keylayout
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/keylayout/ft5x06_ts.kl:system/usr/keylayout/ft5x06_ts.kl
+
