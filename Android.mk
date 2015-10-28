@@ -17,5 +17,10 @@ LOCAL_PATH := $(call my-dir)
 
 include $(call all-makefiles-under,$(LOCAL_PATH))
 
-include $(CLEAR_VARS)
-
+# Create a link for the WCNSS config file, which ends up as a writable
+# version in /data/misc/wifi
+$(shell mkdir -p $(TARGET_OUT)/system/vendor/app/ims/lib/arm; \
+    ln -sf /system/vendor/lib/libimsmedia_jni.so \
+            $(TARGET_OUT)/vendor/app/ims/lib/arm/libimsmedia_jni.so; \
+		ln -sf /system/vendor/lib/libimscamera_jni.so \
+			$(TARGET_OUT)/system/vendor/app/ims/lib/arm/libimscamera_jni.so)
