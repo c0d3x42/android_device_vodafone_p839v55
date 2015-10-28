@@ -152,8 +152,8 @@ PRODUCT_PACKAGES += \
     com.android.future.usb.accessory
 
 # GPS                  
-PRODUCT_PACKAGES += \  
-    gps.msm8916 \      
+PRODUCT_PACKAGES += \
+    gps.msm8916 \
     gps.default \      
     libloc_adapter \   
     libgps.utils \     
