@@ -1,4 +1,7 @@
 #
+# from device/qcom/msm8916_32/system.prop
+#
+#
 # system.prop for msm8916
 #
 
@@ -14,31 +17,52 @@ persist.rild.nitz_short_ons_0=
 persist.rild.nitz_short_ons_1=
 persist.rild.nitz_short_ons_2=
 persist.rild.nitz_short_ons_3=
-persist.radio.rat_on=combine
+#delete by ZTE_CHENJUN_20150227
+#persist.radio.rat_on=combine
 ril.subscription.types=NV,RUIM
 DEVICE_PROVISIONED=1
+# Start in cdma mode
+# Start in LTE-WCDMA-GSM mode, modified by ZTE_YANGHC_20140808
+ro.telephony.default_network=9
 
-# Display
-debug.composition.type=c2d
-debug.sf.gpu_comp_tiling=1
-debug.mdpcomp.idletime=600
-persist.hwc.mdpcomp.enable=true
-ro.opengles.version=196608
-debug.enable.sglscale=1
 debug.sf.hw=1
 debug.egl.hw=1
+persist.hwc.mdpcomp.enable=true
 debug.mdpcomp.logs=0
+dalvik.vm.heapsize=36m
+dev.pm.dyn_samplingrate=1
+persist.demo.hdmirotationlock=false
+debug.enable.sglscale=1
 
-# Media
-mm.enable.qcom_parser=3179041
+#ro.hdmi.enable=true
+#tunnel.decode=true
+#tunnel.audiovideo.decode=true
+#lpa.decode=false
+#lpa.use-stagefright=true
+#persist.speaker.prot.enable=false
+
+#
+# system props for the cne module
+#
+persist.cne.feature=1
+
+#system props for the MM modules
+media.stagefright.enable-player=true
+media.stagefright.enable-http=true
+media.stagefright.enable-aac=true
+media.stagefright.enable-qcp=true
+media.stagefright.enable-fma2dp=true
+media.stagefright.enable-scan=true
+media.msm8939hw=0
+media.msm8929hw=0
 mm.enable.smoothstreaming=true
-mm.disable.sec_smoothstreaming=true
+mmp.enable.3g2=true
 media.aac_51_output_enabled=true
+#codecs: DivX DivXHD AVI AC3 ASF AAC QCP DTS 3G2 MP2TS FLAC
+mm.enable.qcom_parser=3314291
 
-# GPS
-persist.gps.qc_nlp_in_use=1
-persist.loc.nlp_name=com.qualcomm.services.location
-ro.gps.agps_provider=1
+# Default to AwesomePlayer
+media.stagefright.use-awesome=false
 
 #
 # system props for the data modules
@@ -49,44 +73,172 @@ persist.data.netmgrd.qos.enable=true
 #system props for time-services
 persist.timed.enable=true
 
+#
+# system prop for opengles version
+#
+# 196608 is decimal for 0x30000 to report version 3
+ro.opengles.version=196608
+
 # System property for cabl
-ro.qualcomm.cabl=2
+ro.qualcomm.cabl=0
 
 #
 # System props for telephony
-telephony.lteOnCdmaDevice=1
-persist.data.target=dpm1
-persist.radio.no_cons_man_roam=1
+# System prop to turn on CdmaLTEPhone always
+#ZTE_YANGHC_20131231 modified to 0
+telephony.lteOnCdmaDevice=0
 
+#
 # System props for bluetooh
+# System prop to turn on hfp client
 bluetooth.hfp.client=1
-ro.qualcomm.bt.hci_transport=smd
 
 #Simulate sdcard on /data/media
 #
 persist.fuse_sdcard=true
 
 #
-# Audio msm8916
+#snapdragon value add features
 #
-audio.offload.buffer.size.kb=64
+ro.qc.sdk.audio.ssr=false
+##fluencetype can be "fluence" or "fluencepro" or "none"
+#zte_liyang modify for dual mic
+ro.qc.sdk.audio.fluencetype=fluence
+persist.audio.fluence.voicecall=true
+persist.audio.fluence.voicerec=false
+persist.audio.fluence.speaker=false
+#Set for msm8916
+tunnel.audio.encode = false
+#Buffer size in kbytes for compress offload playback
+audio.offload.buffer.size.kb=240
+#Minimum duration for offload playback in secs
 audio.offload.min.duration.secs=30
-av.offload.enable=true
+#Enable offload audio video playback by default
+av.offload.enable=false
+#enable voice path for PCM VoIP by default
+use.voice.path.for.pcm.voip=true
+#
+#System property for FM transmitter
+#
+ro.fm.transmitter=false
+#enable dsp gapless mode by default
+audio.offload.gapless.enabled=true
+
+#Audio voice concurrency related flags
+voice.playback.conc.disabled=true
+voice.record.conc.disabled=true
+voice.voip.conc.disabled=true
 
 #Set composition for USB
-persist.sys.usb.config=mtp,adb
+persist.sys.usb.config=diag,serial_smd,rmnet_bam,adb
 
-# Connectivity Engine support
-persist.cne.feature=1
-persist.dpm.feature=7
-persist.dpm.nsrm.bkg.evt=3955
-persist.sys.dpmd.nsrm=3
+#Set read only default composition for USB
+ro.sys.usb.default.config=diag,serial_smd,rmnet_bam,adb
 
-# Camera
-ro.config.hw_camera_hdr=true
-ro.config.camera_target_track=true
-ro.config.hw_camera_davinci=true
-ro.config.hw_camera_mfd=true
-persist.camera.longshot.enable=true
-ro.config.camerarc=true
-persist.camera.pip.support=0
+#property to enable user to access Google WFD settings
+persist.debug.wfd.enable=1
+#propery to enable VDS WFD solution
+persist.hwc.enable_vds=1
+
+#selects CoreSight configuration to enable
+persist.debug.coresight.config=stm-events
+
+#property to enable narrow search range for video encoding
+vidc.enc.narrow.searchrange=1
+
+#property to enable DS2 dap
+audio.dolby.ds2.enabled=true
+
+#Trim properties
+ro.sys.fw.use_trim_settings=true
+ro.sys.fw.empty_app_percent=50
+ro.sys.fw.trim_empty_percent=100
+ro.sys.fw.trim_cache_percent=100
+ro.sys.fw.trim_enable_memory=1073741824
+
+#enable nsrm by zte_shouyy 20140115
+persist.cne.feature=4
+persist.cne.nsrm.bkg.evt=3955
+
+#enable fastdormancy by zte_zhaoyongliang_20140812
+persist.env.fastdorm.enabled=1
+
+#enable VOLTE menu by ZTE_SHOUYY_20150120
+persist.dbg.volte_avail_ovr=1
+
+#alway search network name from SE13 table by ZTE_CHENJUN_20150330
+persist.radio.use_se_table_only=1
+
+#-----------call settings begin-------------
+#set MIN_MATCH number of the phone by zte_zhouxiaoyan_20141121
+persist.env.c.phone.matchnum=7
+#set call settings options by zte_fushaoxian_20150203
+persist.radio.calls.on.car=false
+persist.radio.calls.on.sip=true
+persist.radio.calls.on.ect=true
+persist.radio.calls.on.vm=true
+#enable TTY mode key by ZTE_WQX_20150511
+persist.radio.callsettings.TTY=true
+#-----------call settings end-------------
+
+#set dmid and metainfo key for dolby processing by zte_liyang
+dmid=3067269873
+audio.ds1.metainfo.key=273
+
+#enable fastdormancy by zte_zhaoyongliang_20150203
+persist.env.fastdorm.enabled=1
+
+# ZTE_MODIFY ,sunliang,2015.1.26, for DRM and widevine , begin
+drm.service.enabled=true
+# ZTE_MODIFY ,sunliang,2015.1.26, for DRM and widevine , end
+
+#
+# ADDITIONAL_BUILD_PROPERTIES
+#
+dalvik.vm.image-dex2oat-filter=verify-none
+dalvik.vm.dex2oat-filter=verify-none
+persist.nfc.smartcard.config=SIM1
+ro.build.zte_prj_name=P839V55_UK
+drm.service.enabled=true
+ro.adb.secure=1
+persist.sys.usb.config=cdrom
+ro.config.notification_sound=Tethys.ogg
+ro.config.ringtone=Titania.ogg
+persist.sys.timezone=Europe/London
+ro.build.baseband_version=P839V55B01
+persist.radio.apn_delay=5000
+ro.build.sw_internal_version=UK_VDF_P839V55V1.0.0B13
+ro.build.hardware_version=Vodafone995NT3
+ro.streaming.ua.prof=http://www.zte.com.cn/mobile/uaprof/Vodafone_Smart_ultra_6.xml
+dolby.monospeaker=true
+dalvik.vm.heapgrowthlimit=128m
+dalvik.vm.heapminfree=6m
+dalvik.vm.heapstartsize=14m
+persist.sys.ztelog.enable=0
+keyguard.no_require_sim=true
+ro.com.android.dataroaming=false
+ro.com.android.dateformat=MM-dd-yyyy
+ro.carrier=unknown
+ro.config.alarm_alert=Platinum.ogg
+ro.vendor.extension_library=libqti-perfd-client.so
+persist.radio.apm_sim_not_pwdn=1
+ro.setupwizard.mode=OPTIONAL
+ro.com.google.gmsversion=5.0_r2
+ro.com.google.clientidbase=android-zte
+ro.com.google.clientidbase.ms=android-zte
+ro.com.google.clientidbase.yt=android-zte
+ro.com.google.clientidbase.am=android-zte
+ro.com.google.clientidbase.gmm=android-zte
+dalvik.vm.heapsize=256m
+dalvik.vm.heaptargetutilization=0.75
+dalvik.vm.heapmaxfree=8m
+persist.sys.dalvik.vm.lib.2=libart.so
+dalvik.vm.isa.arm.features=div
+net.bt.name=Android
+dalvik.vm.stack-trace-file=/data/anr/traces.txt
+persist.gps.qc_nlp_in_use=1
+persist.loc.nlp_name=com.qualcomm.location
+ro.gps.agps_provider=1
+ro.pip.gated=0
+zte.ds.state=off
+
