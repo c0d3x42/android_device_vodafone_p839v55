@@ -103,3 +103,67 @@ PRODUCT_PACKAGES += \
     wpa_supplicant \
     wpa_supplicant.conf \
     wcnss_service
+
+# ANT+
+PRODUCT_PACKAGES += \
+    AntHalService \
+    com.dsi.ant.antradio_library \
+    libantradio
+
+# Camera
+PRODUCT_PACKAGES += \
+    camera.msm8916
+
+# Display
+PRODUCT_PACKAGES += \
+    copybit.msm8916 \
+    gralloc.msm8916 \
+    hwcomposer.msm8916 \
+    libtinyxml \
+    memtrack.msm8916
+
+# Filesystem
+PRODUCT_PACKAGES += \
+    e2fsck \
+    make_ext4fs
+
+# IPv6
+PRODUCT_PACKAGES += \
+    ebtables \
+    ethertypes \
+    libebtc
+
+# Keystore
+PRODUCT_PACKAGES += \
+    keystore.msm8916
+
+# Misc
+PRODUCT_PACKAGES += \
+    libbson \
+    libxml2
+
+# Power HAL
+PRODUCT_PACKAGES += \
+    power.qcom \
+    power.msm8916
+
+# USB
+PRODUCT_PACKAGES += \
+    com.android.future.usb.accessory
+
+# GPS                  
+PRODUCT_PACKAGES += \  
+    gps.msm8916 \      
+    gps.default \      
+    libloc_adapter \   
+    libgps.utils \     
+    libloc_eng \       
+    libloc_api_v02     
+
+# Lights             
+PRODUCT_PACKAGES += \
+    lights.msm8916   
+
+
+
+
