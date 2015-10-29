@@ -96,7 +96,11 @@ PRODUCT_COPY_FILES += \
 #WiFi
 PRODUCT_PACKAGES += \
     dhcpcd.conf \
+    libwpa_client \
     hostapd \
+    hostapd_default.conf \
+    hostapd.accept \
+    hostapd.deny \
     libqsap_sdk \
     libQWiFiSoftApCfg \
     libwcnss_qmi \
