@@ -2,4 +2,4 @@
 allow init app_data_file:dir setattr;
 
 allow init firmware_file:dir mounton;
-allow init system_file:dir mounton;
+#allow init system_file:dir mounton;
