@@ -31,6 +31,7 @@ TARGET_SYSTEM_PROP += device/vodafone/p839v55/system.prop
 # Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := MSM8916
 TARGET_NO_BOOTLOADER := true
+TARGET_NO_RECOVERY := true
 
 # Architecture
 TARGET_ARCH := arm
