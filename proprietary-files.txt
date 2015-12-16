@@ -621,7 +621,3 @@ lib/hw/sensors.msm8916.so
 lib/libztedrmcore.so
 lib/libzte_zcoredevice.so
 lib/libzte_zcore.so
-app/com.qualcomm.location
-app/com.qualcomm.location/arm
-app/com.qualcomm.location/arm/com.qualcomm.location.odex
-app/com.qualcomm.location/com.qualcomm.location.apk
