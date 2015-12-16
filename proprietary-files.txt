@@ -485,7 +485,6 @@ vendor/lib/libxtwifi_ulp_adaptor.so
 vendor/lib/libxtwifi_zpp_adaptor.so
 vendor/lib/libzte_nv.so
 vendor/lib/mediadrm
-vendor/lib/mediadrm/libdrmclearkeyplugin.so
 vendor/lib/mediadrm/libwvdrmengine.so
 vendor/lib/mmi_audio.so
 vendor/lib/mmi_camera.so
@@ -543,7 +542,6 @@ bin/qseecom_sample_client
 bin/qseecom_security_test
 bin/radish
 bin/rfs_access
-bin/rild
 bin/rmt_storage
 bin/thermal-engine
 bin/time_daemon
@@ -613,7 +611,6 @@ etc/quipc.conf
 etc/sap.conf
 etc/xtra_root_cert.pem
 etc/xtwifi.conf
-lib/hw/audio.primary.msm8916.so
 lib/hw/camera.msm8916.so
 lib/hw/lights.msm8916.so
 lib/hw/nfc_nci.pn54x.default.so
