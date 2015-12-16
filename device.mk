@@ -73,7 +73,6 @@ PRODUCT_PACKAGES += \
     tinymix
 
 PRODUCT_COPY_FILES += \
-		$(LOCAL_PATH)/audio/audio_effects.conf:system/etc/audio_effects.conf \
 		$(LOCAL_PATH)/audio/audio_policy.conf:system/etc/audio_policy.conf \
 		$(LOCAL_PATH)/audio/mixer_paths_mtp.xml:system/etc/mixer_paths_mtp.xml \
 		$(LOCAL_PATH)/audio/mixer_paths_no_dolby.xml:system/etc/mixer_paths_no_dolby.xml \
