@@ -13,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
--include vendor/vodafone/p839v55/BoardConfigVendor.mk
 
 LOCAL_PATH := device/vodafone/p839v55
 
@@ -61,25 +60,23 @@ TARGET_KERNEL_CONFIG := msm_P839V55_defconfig
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x02000000 --tags_offset 0x00000100
 
 # ANT+
-BOARD_ANT_WIRELESS_DEVICE := "vfs-prerelease"
+BOARD_ANT_WIRELESS_DEVICE := "qualcomm-smd"
 
 # Asserts
 TARGET_OTA_ASSERT_DEVICE := p839v55
 
 # Audio
-AUDIO_FEATURE_ENABLED_NEW_SAMPLE_RATE := true
-AUDIO_FEATURE_ENABLED_KPI_OPTIMIZE := true
 AUDIO_FEATURE_LOW_LATENCY_PRIMARY := true
 BOARD_USES_ALSA_AUDIO := true
-AUDIO_FEATURE_ENABLED_MULTI_VOICE_SESSIONS := true
-TARGET_USES_QCOM_MM_AUDIO := true
 
 # Camera
-USE_DEVICE_SPECIFIC_CAMERA := true
+#USE_DEVICE_SPECIFIC_CAMERA := true
 
 # CMHW
-BOARD_USES_CYANOGEN_HARDWARE := true
-BOARD_HARDWARE_CLASS += hardware/cyanogen
+BOARD_HARDWARE_CLASS := --dt device/vodafone/p839v55/dt.img
+
+# Add suffix variable to uniquely identify the board
+TARGET_BOARD_SUFFIX := _32
 
 # Crypto
 TARGET_HW_DISK_ENCRYPTION := true
@@ -96,7 +93,6 @@ OVERRIDE_RS_DRIVER := libRSDriver_adreno.so
 
 # FM
 TARGET_QCOM_NO_FM_FIRMWARE := true
-AUDIO_FEATURE_ENABLED_FM := true
 
 # Fonts
 EXTENDED_FONT_FOOTPRINT := true
@@ -107,18 +103,16 @@ TARGET_GPS_HAL_PATH := $(LOCAL_PATH)/gps
 TARGET_PROVIDES_GPS_LOC_API := true
 
 # Init
-TARGET_UNIFIED_DEVICE := true
+#TARGET_UNIFIED_DEVICE := true
 #TARGET_INIT_VENDOR_LIB := libinit_msm
 #TARGET_LIBINIT_DEFINES_FILE := $(LOCAL_PATH)/init/init_p839v55.c
+TARGET_PLATFORM_DEVICE_BASE := /devices/soc.0/
 
 # Lights
 TARGET_PROVIDES_LIBLIGHT := true
 
 # Malloc
 MALLOC_IMPL := dlmalloc
-
-# Motorola
-TARGET_USES_MOTOROLA_LOG := true
 
 #NFC
 BOARD_NFC_HAL_SUFFIX := 8916
@@ -140,13 +134,17 @@ TARGET_POWERHAL_VARIANT := qcom
 
 # Qualcomm support
 BOARD_USES_QCOM_HARDWARE := true
-TARGET_USES_QCOM_BSP := true
 
 # Recovery
 BOARD_HAS_NO_SELECT_BUTTON := true
 TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/rootdir/fstab.qcom
+BOARD_SUPPRESS_EMMC_WIPE := true
+COMMON_GLOBAL_CFLAGS += -DRECOVERY_FONT='"roboto_15x24.h"'
 TARGET_USERIMAGES_USE_EXT4 := true
-TARGET_USERIMAGES_USE_F2FS := true
+
+# RIL
+TARGET_RIL_VARIANT := caf
+PROTOBUF_SUPPORTED := true
 
 # SELinux
 
@@ -155,21 +153,26 @@ include device/qcom/sepolicy/sepolicy.mk
 BOARD_SEPOLICY_DIRS += \
     device/vodafone/p839v55/sepolicy
 
-BOARD_SEPOLICY_UNION += \
-    vold.te
+# Time services
+BOARD_USES_QC_TIME_SERVICES := true
 
 # Vold
+BOARD_VOLD_MAX_PARTITIONS := 32
+BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
 TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/msm_hsusb/gadget/lun%d/file
 
 # Wifi
 BOARD_HAS_QCOM_WLAN := true
+BOARD_HAS_QCOM_WLAN_SDK := true
 BOARD_WLAN_DEVICE := qcwcn
 BOARD_HOSTAPD_DRIVER := NL80211
 BOARD_HOSTAPD_PRIVATE_LIB := lib_driver_cmd_qcwcn
 BOARD_WPA_SUPPLICANT_DRIVER := NL80211
 BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_qcwcn
-WPA_SUPPLICANT_VERSION := VER_0_8_X
-TARGET_PROVIDES_WCNSS_QMI := true
-TARGET_USES_QCOM_WCNSS_QMI := true
 WIFI_DRIVER_FW_PATH_AP := "ap"
 WIFI_DRIVER_FW_PATH_STA := "sta"
+WIFI_DRIVER_MODULE_PATH := "/system/lib/modules/pronto/pronto_wlan.ko"
+WIFI_DRIVER_MODULE_NAME := "wlan"
+WPA_SUPPLICANT_VERSION := VER_0_8_X
+
+-include vendor/vodafone/p839v55/BoardConfigVendor.mk
