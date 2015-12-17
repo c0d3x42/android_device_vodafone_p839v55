@@ -73,7 +73,7 @@ BOARD_USES_ALSA_AUDIO := true
 #USE_DEVICE_SPECIFIC_CAMERA := true
 
 # CMHW
-BOARD_HARDWARE_CLASS := --dt device/vodafone/p839v55/dt.img
+BOARD_HARDWARE_CLASS := device/vodafone/p839v55/cmhw/src
 
 # Add suffix variable to uniquely identify the board
 TARGET_BOARD_SUFFIX := _32
