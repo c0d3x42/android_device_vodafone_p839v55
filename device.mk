@@ -153,6 +153,8 @@ PRODUCT_PACKAGES += \
 # Ramdisk
 PRODUCT_PACKAGES += \
     fstab.qcom \
+		init.class_main.sh \
+		init.mdm.sh \
 		init.qcom.bms.sh \
 		init.qcom.class_core.sh \
 		init.qcom.debug.sh \
