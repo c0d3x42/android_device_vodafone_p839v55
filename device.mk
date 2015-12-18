@@ -150,6 +150,14 @@ PRODUCT_PACKAGES += \
     power.qcom \
     power.msm8916
 
+# Ramdisk
+PRODUCT_PACKAGES += \
+    fstab.qcom \
+    init.qcom.rc \
+    init.qcom.power.rc \
+    init.qcom.usb.rc \
+    ueventd.qcom.rc
+
 # USB
 PRODUCT_PACKAGES += \
     com.android.future.usb.accessory
