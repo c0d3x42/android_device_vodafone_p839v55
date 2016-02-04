@@ -526,6 +526,7 @@ bin/adsprpcd
 bin/btnvtool
 bin/hci_qcomm_init
 bin/irsc_util
+bin/loc_launcher
 bin/location-mq
 bin/mm-pp-daemon
 bin/mm-qcamera-app
@@ -535,7 +536,10 @@ bin/mm-qjpeg-enc-test
 bin/mm-qomx-idec-test
 bin/mm-qomx-ienc-test
 bin/mm-vidc-omx-test
+bin/msm_irqbalance
 bin/netmgrd
+bin/perfd
+bin/ptt_socket_app
 bin/qmuxd
 bin/qseecomd
 bin/qseecom_sample_client
