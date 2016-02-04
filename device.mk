@@ -22,32 +22,14 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 # Overlay
 DEVICE_PACKAGE_OVERLAYS := $(LOCAL_PATH)/overlay
 
-# These are the hardware-specific features
-PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
-    frameworks/native/data/etc/android.hardware.bluetooth_le.xml:system/etc/permissions/android.hardware.bluetooth_le.xml \
-    frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
-    frameworks/native/data/etc/android.hardware.camera.front.xml:system/etc/permissions/android.hardware.camera.front.xml \
-    frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
-    frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
-    frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
-    frameworks/native/data/etc/android.hardware.sensor.proximity.xml:system/etc/permissions/android.hardware.sensor.proximity.xml \
-    frameworks/native/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
-    frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
-    frameworks/native/data/etc/android.hardware.nfc.xml:system/etc/permissions/android.hardware.nfc.xml \
-    frameworks/native/data/etc/android.hardware.nfc.hce.xml:system/etc/permissions/android.hardware.nfc.hce.xml \
-    frameworks/base/nfc-extras/com.android.nfc_extras.xml:system/etc/permissions/com.android.nfc_extras.xml \
-    frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
-    frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
-    frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
-    frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
-    frameworks/native/data/etc/android.hardware.telephony.cdma.xml:system/etc/permissions/android.hardware.telephony.cdma.xml \
-    frameworks/native/data/etc/android.hardware.audio.low_latency.xml:system/etc/permissions/android.hardware.audio.low_latency.xml \
-    frameworks/native/data/etc/android.software.print.xml:system/etc/permissions/android.software.print.xml \
-    frameworks/native/data/etc/android.hardware.ethernet.xml:system/etc/permissions/android.hardware.ethernet.xml
-
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-    persist.sys.usb.config=mtp
+    persist.sys.usb.config=mtp \
+    ro.adb.secure=0 \
+    ro.secure=0 \
+    ro.allow.mock.location=1 \
+    ro.debuggable=1 \
+    ro.zygote=zygote32
+
 
 # Screen density
 PRODUCT_AAPT_CONFIG := normal hdpi xhdpi xxhdpi
@@ -60,13 +42,20 @@ TARGET_SCREEN_WIDTH := 1080
 $(call inherit-product, frameworks/native/build/phone-xxhdpi-2048-dalvik-heap.mk)
 $(call inherit-product, frameworks/native/build/phone-xxhdpi-2048-hwui-memory.mk)
 
+#auditd
+AUDITD_MAX_LOG_FILE_SIZEKB := 1000
+PRODUCT_PACKAGES += auditd
+
+
 # Audio
 PRODUCT_PACKAGES += \
     audiod \
+    audio.primary.msm8916 \
     audio.a2dp.default \
     audio.r_submix.default \
-    audio.usb.default \
-    libaudio-resampler \
+    audio.usb.default
+
+PRODUCT_PACKAGES += \
     libqcomvisualizer \
     libqcomvoiceprocessing \
     libqcompostprocbundle \
@@ -84,13 +73,108 @@ PRODUCT_COPY_FILES += \
 		$(LOCAL_PATH)/audio/mixer_paths_wcd9330.xml:system/etc/mixer_paths_wcd9330.xml \
 		$(LOCAL_PATH)/audio/mixer_paths.xml:system/etc/mixer_paths.xml
 
+# ANT+
+PRODUCT_PACKAGES += \
+    AntHalService \
+    com.dsi.ant.antradio_library \
+    libantradio
+
+# Camera
+PRODUCT_PACKAGES += \
+    camera.msm8916
+
+# Connectivity
+PRODUCT_PACKAGES += \
+    libcnefeatureconfig
+
+# CRDA
+PRODUCT_PACKAGES += \
+    crda \
+    linville.key.pub.pem \
+    regdbdump \
+    regulatory.bin
+
+PRODUCT_PACKAGES += \
+    init.crda.sh
+
+# Display
+PRODUCT_PACKAGES += \
+    copybit.msm8916 \
+    gralloc.msm8916 \
+    hwcomposer.msm8916 \
+    libtinyxml \
+    memtrack.msm8916
+
+# Filesystem
+PRODUCT_PACKAGES += \
+    e2fsck \
+    make_ext4fs \
+    setupfs
+
+# GPS
+PRODUCT_PACKAGES += \
+    gps.msm8916 \
+    gps.default \
+    libloc_adapter \
+    libgps.utils \
+    libloc_eng \
+    libloc_api_v02
+
+
+# IPv6
+PRODUCT_PACKAGES += \
+    ebtables \
+    ethertypes \
+    libebtc
+
+# IRQ balance
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/msm_irqbalance.conf:system/etc/msm_irqbalance.conf
+
+# Keylayout
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
+    $(LOCAL_PATH)/keylayout/ft5x06_ts.kl:system/usr/keylayout/ft5x06_ts.kl \
+    $(LOCAL_PATH)/keylayout/synaptics_rmi4_i2c.kl:system/usr/keylayout/synaptics_rmi4_i2c.kl
+
+# Keystore
+PRODUCT_PACKAGES += \
+    keystore.msm8916
+
+# Lights
+PRODUCT_PACKAGES += \
+    lights.msm8916
+
+# Misc
+PRODUCT_PACKAGES += \
+    libbson \
+    libxml2
+
+# Power HAL
+PRODUCT_PACKAGES += \
+    power.msm8916
+
+# Qualcomm
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.timed.enable=true \
+    ro.qualcomm.cabl=2 \
+    ro.vendor.extension_library=/vendor/lib/libqti-perfd-client.so
+
+# Ramdisk
+PRODUCT_PACKAGES += \
+    fstab.qcom \
+    init.qcom.rc \
+    init.qcom.power.rc
+    init.qcom.usb.rc \
+    ueventd.qcom.rc
+
 # Thermal
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/thermal-engine.conf:system/etc/thermal-engine.conf
 
-# Keylayout
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/keylayout/ft5x06_ts.kl:system/usr/keylayout/ft5x06_ts.kl
+# USB
+PRODUCT_PACKAGES += \
+    com.android.future.usb.accessory
 
 #WiFi
 PRODUCT_PACKAGES += \
@@ -106,85 +190,4 @@ PRODUCT_PACKAGES += \
     wpa_supplicant \
     wpa_supplicant.conf \
     wcnss_service
-
-# ANT+
-PRODUCT_PACKAGES += \
-    AntHalService \
-    com.dsi.ant.antradio_library \
-    libantradio
-
-# Camera
-PRODUCT_PACKAGES += \
-    camera.msm8916
-
-# Display
-PRODUCT_PACKAGES += \
-    copybit.msm8916 \
-    gralloc.msm8916 \
-    hwcomposer.msm8916 \
-    libtinyxml \
-    memtrack.msm8916
-
-# Filesystem
-PRODUCT_PACKAGES += \
-    e2fsck \
-    make_ext4fs
-
-# IPv6
-PRODUCT_PACKAGES += \
-    ebtables \
-    ethertypes \
-    libebtc
-
-# Keystore
-PRODUCT_PACKAGES += \
-    keystore.msm8916
-
-# Misc
-PRODUCT_PACKAGES += \
-    libbson \
-    libxml2
-
-# Power HAL
-PRODUCT_PACKAGES += \
-    power.qcom \
-    power.msm8916
-
-# Ramdisk
-PRODUCT_PACKAGES += \
-    fstab.qcom \
-		init.class_main.sh \
-		init.mdm.sh \
-		init.qcom.bms.sh \
-		init.qcom.class_core.sh \
-		init.qcom.debug.sh \
-		init.qcom.early_boot.sh \
-		init.qcom.factory.sh \
-    init.qcom.rc \
-		init.qcom.sh \
-		init.qcom.syspart_fixup.sh \
-    init.qcom.usb.rc \
-    init.qcom.usb.sh \
-		init.target.rc \
-    ueventd.qcom.rc
-
-# USB
-PRODUCT_PACKAGES += \
-    com.android.future.usb.accessory
-
-# GPS                  
-PRODUCT_PACKAGES += \
-    gps.msm8916 \
-    gps.default \
-    libloc_adapter \
-    libgps.utils \
-    libloc_eng \
-    libloc_api_v02
-
-# Lights             
-PRODUCT_PACKAGES += \
-    lights.msm8916   
-
-
-
 
