@@ -35,7 +35,7 @@ on early-init
 on init
     sysclktz 0
 
-    loglevel 3
+    loglevel 8
 
     # Backward compatibility
     symlink /system/etc /etc
@@ -62,6 +62,7 @@ on init
     write /sys/fs/cgroup/memory/sw/memory.move_charge_at_immigrate 1
     chown root system /sys/fs/cgroup/memory/sw/tasks
     chmod 0660 /sys/fs/cgroup/memory/sw/tasks
+    chmod 0220 /sys/fs/cgroup/memory/cgroup.event_control
 
     mkdir /system
     mkdir /data 0771 system system
@@ -71,7 +72,7 @@ on init
     # See storage config details at http://source.android.com/tech/storage/
     mkdir /mnt/shell 0700 shell shell
     mkdir /mnt/media_rw 0700 media_rw media_rw
-    #mkdir /storage 0751 root sdcard_r
+    mkdir /storage 0751 root sdcard_r
 
     # Directory for putting things only root should see.
     mkdir /mnt/secure 0700 root root
@@ -122,25 +123,19 @@ on init
     mount cgroup none /dev/cpuctl cpu
     chown system system /dev/cpuctl
     chown system system /dev/cpuctl/tasks
-    chmod 0660 /dev/cpuctl/tasks
+    chmod 0666 /dev/cpuctl/tasks
     write /dev/cpuctl/cpu.shares 1024
-    write /dev/cpuctl/cpu.rt_runtime_us 950000
+    write /dev/cpuctl/cpu.rt_runtime_us 800000
     write /dev/cpuctl/cpu.rt_period_us 1000000
 
-    mkdir /dev/cpuctl/apps
-    chown system system /dev/cpuctl/apps/tasks
-    chmod 0666 /dev/cpuctl/apps/tasks
-    write /dev/cpuctl/apps/cpu.shares 1024
-    write /dev/cpuctl/apps/cpu.rt_runtime_us 800000
-    write /dev/cpuctl/apps/cpu.rt_period_us 1000000
-
-    mkdir /dev/cpuctl/apps/bg_non_interactive
-    chown system system /dev/cpuctl/apps/bg_non_interactive/tasks
-    chmod 0666 /dev/cpuctl/apps/bg_non_interactive/tasks
+    mkdir /dev/cpuctl/bg_non_interactive
+    chown system system /dev/cpuctl/bg_non_interactive/tasks
+    chmod 0666 /dev/cpuctl/bg_non_interactive/tasks
     # 5.0 %
-    write /dev/cpuctl/apps/bg_non_interactive/cpu.shares 52
-    write /dev/cpuctl/apps/bg_non_interactive/cpu.rt_runtime_us 700000
-    write /dev/cpuctl/apps/bg_non_interactive/cpu.rt_period_us 1000000
+    write /dev/cpuctl/bg_non_interactive/cpu.shares 52
+    write /dev/cpuctl/bg_non_interactive/cpu.rt_runtime_us 700000
+    write /dev/cpuctl/bg_non_interactive/cpu.rt_period_us 1000000
+
 
     # qtaguid will limit access to specific data based on group memberships.
     #   net_bw_acct grants impersonation of socket owners.
@@ -262,6 +257,7 @@ on post-fs-data
     # create basic filesystem structure
     mkdir /data/misc 01771 system misc
     mkdir /data/misc/adb 02750 system shell
+    mkdir /data/misc/audit 02750 audit system
     mkdir /data/misc/bluedroid 0770 bluetooth net_bt_stack
     mkdir /data/misc/bluetooth 0770 system system
     mkdir /data/misc/keystore 0700 keystore keystore
@@ -314,6 +310,8 @@ on post-fs-data
     # the following directory.
     mkdir /data/mediadrm 0770 mediadrm mediadrm
 
+    mkdir /data/adb 0700 root root
+
     # symlink to bugreport storage location
     symlink /data/data/com.android.shell/files/bugreports /data/bugreports
 
@@ -325,6 +323,9 @@ on post-fs-data
 
     # Set SELinux security contexts on upgrade or policy update.
     restorecon_recursive /data
+    restorecon /data/data
+    restorecon /data/user
+    restorecon /data/user/0
 
     # If there is no fs-post-data action in the init.<device>.rc file, you
     # must uncomment this line, otherwise encrypted filesystems
@@ -332,13 +333,8 @@ on post-fs-data
     # Set indication (checked by vold) that we have finished this action
     #setprop vold.post_fs_data_done 1
 
-        #** ZTE_MODIFY sunliang, 2015-1-26, create the OMA directories, so as to enforce our permissions #
-    mkdir /data/oma 1777
-    chmod 1777 /data/oma
-    mkdir /data/oma/conf 1777
-    chmod 1777 /data/oma/conf
-    #** ZTE_MODIFY END
 on boot
+    mkdir /data/on-boot-1
     # basic network init
     ifup lo
     hostname localhost
@@ -416,12 +412,14 @@ on boot
     chown system system /sys/class/leds/red/device/grpfreq
     chown system system /sys/class/leds/red/device/grppwm
     chown system system /sys/class/leds/red/device/blink
+    chown system system /sys/class/leds/left/brightness
+    chown system system /sys/class/leds/middle/brightness
+    chown system system /sys/class/leds/right/brightness
+    chown system system /sys/class/leds/left/breathing
+    chown system system /sys/class/leds/middle/breathing
+    chown system system /sys/class/leds/right/breathing
+    chown system system /proc/driver/irda
     chown system system /sys/class/timed_output/vibrator/enable
-#add by chenyingfang begin
-    chown system system /sys/class/leds/bln/device/mode
-    chown system system /sys/class/leds/bln/device/enable
-    chown system system /sys/class/leds/bln/brightness
-#add by chenyingfang,end
     chown system system /sys/module/sco/parameters/disable_esco
     chown system system /sys/kernel/ipv4/tcp_wmem_min
     chown system system /sys/kernel/ipv4/tcp_wmem_def
@@ -431,35 +429,11 @@ on boot
     chown system system /sys/kernel/ipv4/tcp_rmem_max
     chown root radio /proc/cmdline
 
-    # add by guohaijing start
-    chown system system /sys/bus/i2c/drivers/Goodix-TS/5-0014/enable_palm_sleep
-    chown system system /sys/bus/i2c/drivers/Goodix-TS/5-0014/enable_gesture_wakeup
-    #chown system system /sys/bus/i2c/drivers/Goodix-TS/5-0014/enable_doze_status
-    #setprop persist.sys.doze.status 0
-    # add by guohaijing end
-
-        #add by jiangchong start
-        #chown system system /persist/sensors_calibration_params.xml
-        chmod 0666 /persist/sensors_calibration_params.xml
-        #add by jiangchong end
-
-#add by wangbin begin
-    chmod 0660 /sys/module/smb1360_charger_fg/parameters/enable_to_shutdown
-    chmod 0660 /sys/module/smb1360_charger_fg/parameters/charging_disabled
-    chown root system /sys/module/smb1360_charger_fg/parameters/enable_to_shutdown
-    chown root system /sys/module/smb1360_charger_fg/parameters/charging_disabled
-#add by wangbin,end
     # Define default initial receive window size in segments.
     setprop net.tcp.default_init_rwnd 60
 
-    #ZTE for camera tintless
-    setprop persist.camera.tintless  enable
-
-# Define TCP buffer sizes for various networks
-#   ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
-    setprop net.tcp.buffersize.gprs    14600,17520,64240,14600,17520,64240
-
     class_start core
+    mkdir /data/on-boot-end
 
 on nonencrypted
     class_start main
@@ -474,10 +448,6 @@ on property:vold.decrypt=trigger_encryption
 
 on property:sys.init_log_level=*
     loglevel ${sys.init_log_level}
-
-#ZTE for camera 3a log
-on property:ro.debuggable=1
-        setprop persist.camera.stats.debug.mask 0
 
 on charger
     class_start charger
@@ -562,12 +532,6 @@ service lmkd /system/bin/lmkd
     critical
     socket lmkd seqpacket 0660 system system
 
-#
-# zte dlctrl
-#
-on property:persist.sys.dlctrl=*
-    write /sys/module/msm_poweroff/parameters/download_mode ${persist.sys.dlctrl}
-
 service servicemanager /system/bin/servicemanager
     class core
     user system
@@ -602,7 +566,7 @@ service ril-daemon /system/bin/rild
     socket rild stream 660 root radio
     socket rild-debug stream 660 radio system
     user root
-    group radio cache inet misc audio log qcom_diag
+    group radio cache inet misc audio sdcard_rw log qcom_diag
 
 service surfaceflinger /system/bin/surfaceflinger
     class core
@@ -610,12 +574,10 @@ service surfaceflinger /system/bin/surfaceflinger
     group graphics drmrpc
     onrestart restart zygote
 
-# ZTE_MODIFY ,sunliang,2015/1/23, ZTE DRM, add sdcard read permissions ,begin
 service drm /system/bin/drmserver
     class main
     user drm
-    group drm system inet drmrpc sdcard_r
-# ZTE_MODIFY ,sunliang,2015/1/23, ZTE DRM, add sdcard read  permissions ,end
+    group drm system inet drmrpc
 
 service media /system/bin/mediaserver
     class main
@@ -639,7 +601,7 @@ service encrypt /system/bin/vdc --wait cryptfs enablecrypto inplace default
 
 service bootanim /system/bin/bootanimation
     class core
-    user media
+    user graphics
     group graphics audio
     disabled
     oneshot
@@ -652,6 +614,7 @@ service flash_recovery /system/bin/install-recovery.sh
     class main
     seclabel u:r:install_recovery:s0
     oneshot
+    disabled
 
 service racoon /system/bin/racoon
     class main
@@ -698,42 +661,3 @@ service pre-recovery /system/bin/uncrypt
     disabled
     oneshot
 
-# ZTE_MODIFY_20141216 by zhangqingli for fcctest +++
-service wifi_ftmd /system/bin/wifi_ftmd
-   socket wifi_ftmd dgram 0666
-    disabled
-    oneshot
-# ZTE_MODIFY_20141216 by zhangqingli for fcctest ---
-
-# +++ZTE_FKY_20141216 add init.wlanprop.sh +++
-service wlan_prop /system/bin/sh /system/etc/init.wlanprop.sh
-    class main
-    oneshot
-# ---ZTE_FKY_20141216 add init.wlanprop.sh ---
-
-# +++ZTE_YXH_20150106 add init.btprop.sh +++
-service bt_prop /system/bin/sh /system/etc/init.btprop.sh
-    class main
-    oneshot
-# ---ZTE_YXH_20150106 add init.btprop.sh ---
-
-#ZTE_GETLOGTOFILE ++++
-service getlog /system/bin/getlogtofile
-    user root
-    oneshot
-on property:persist.sys.ztelog.enable=1
-    start getlog
-on property:persist.sys.ztelog.enable=0
-    stop getlog
-#ZTE_GETLOGTOFILE ----
-# added copypartnerapp
-service copypartnerapp /system/bin/copypartnerapp
-    user system
-    class late_start
-    oneshot
-
-# Loading UFSD module on boot
-service ufsd /system/bin/start-ufsd
-    class main
-    user root
-    oneshot     

@@ -619,6 +619,7 @@ lib/hw/camera.msm8916.so
 lib/hw/lights.msm8916.so
 lib/hw/nfc_nci.pn54x.default.so
 lib/hw/sensors.msm8916.so
+lib/libcnefeatureconfig.so
 lib/libztedrmcore.so
 lib/libzte_zcoredevice.so
 lib/libzte_zcore.so
