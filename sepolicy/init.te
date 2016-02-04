@@ -3,3 +3,8 @@ allow init app_data_file:dir setattr;
 
 allow init firmware_file:dir mounton;
 #allow init system_file:dir mounton;
+allow init self:process execmem;
+allow init self:tcp_socket create;
+allow init self:tcp_socket setopt;
+allow init self:tcp_socket { bind listen };
+allow init node:tcp_socket node_bind;
